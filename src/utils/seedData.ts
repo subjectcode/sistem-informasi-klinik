@@ -348,6 +348,12 @@ export function updateDokter(id: number, data: Partial<Dokter>) {
   }
 }
 
+// ➜ TAMBAHAN BARU: fungsi hapus dokter
+export function deleteDokter(id: number) {
+  const list = getDokter().filter((d) => d.id !== id);
+  localStorage.setItem('rs_dokter', JSON.stringify(list));
+}
+
 export function getPendaftaran(): Pendaftaran[] {
   return JSON.parse(localStorage.getItem('rs_pendaftaran') || '[]');
 }
