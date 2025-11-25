@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary-blue: #1A73E8;
+    --color-success-green: #34A853;
+    --color-bg-gray: #F5F7FA;
+    --color-border-gray: #E8ECF1;
+    --color-text-dark: #1F2937;
+  }
+
+  body {
+    @apply bg-[#F5F7FA] text-[#1F2937];
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
+  }
+
+  h1 {
+    @apply text-3xl font-bold;
+  }
+
+  h2 {
+    @apply text-2xl font-semibold;
+  }
+
+  h3 {
+    @apply text-xl font-semibold;
+  }
+
+  h4 {
+    @apply text-lg font-medium;
+  }
+
+  p {
+    @apply text-base;
+  }
+}
+
+@layer utilities {
+  .btn-primary {
+    @apply bg-[#1A73E8] text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors font-medium;
+  }
+
+  .btn-success {
+    @apply bg-[#34A853] text-white px-6 py-3 rounded-xl hover:bg-green-700 transition-colors font-medium;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-800 px-6 py-3 rounded-xl hover:bg-gray-300 transition-colors font-medium;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-[#E8ECF1] p-6;
+  }
+
+  .badge-waiting {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700;
+  }
+
+  .badge-process {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm bg-yellow-100 text-yellow-700;
+  }
+
+  .badge-success {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm bg-green-100 text-green-700;
+  }
+
+  .badge-danger {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm bg-red-100 text-red-700;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2.5 border border-[#E8ECF1] rounded-lg focus:ring-2 focus:ring-[#1A73E8] focus:border-transparent transition-all;
+  }
+
+  .table-container {
+    @apply bg-white rounded-xl shadow-sm border border-[#E8ECF1] overflow-hidden;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white;
+  }
+}
