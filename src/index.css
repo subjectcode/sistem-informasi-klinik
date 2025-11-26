@@ -1915,3 +1915,20 @@
   inherits: false;
   initial-value: 0;
 }
+
+
+/* === CURSOR FIX UNTUK SEMUA TOMBOL === */
+button,
+[role='button'],
+input[type='button'],
+input[type='submit'],
+input[type='reset'] {
+  cursor: pointer !important;
+}
+
+/* Kalau mau ekstra yakin, semua class tombol juga dipaksa pointer */
+.btn-primary,
+.btn-success,
+.btn-secondary {
+  cursor: pointer !important;
+}

@@ -41,19 +41,27 @@
   p {
     @apply text-base;
   }
+
+  /* ⭐ Tambahan: semua tombol pakai cursor pointer */
+  button,
+  [type='button'],
+  [type='submit'],
+  [role='button'] {
+    cursor: pointer;
+  }
 }
 
 @layer utilities {
   .btn-primary {
-    @apply bg-[#1A73E8] text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors font-medium;
+    @apply bg-[#1A73E8] text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors font-medium cursor-pointer;
   }
 
   .btn-success {
-    @apply bg-[#34A853] text-white px-6 py-3 rounded-xl hover:bg-green-700 transition-colors font-medium;
+    @apply bg-[#34A853] text-white px-6 py-3 rounded-xl hover:bg-green-700 transition-colors font-medium cursor-pointer;
   }
 
   .btn-secondary {
-    @apply bg-gray-200 text-gray-800 px-6 py-3 rounded-xl hover:bg-gray-300 transition-colors font-medium;
+    @apply bg-gray-200 text-gray-800 px-6 py-3 rounded-xl hover:bg-gray-300 transition-colors font-medium cursor-pointer;
   }
 
   .card {
