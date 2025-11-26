@@ -76,7 +76,7 @@ const seedUsers: User[] = [
   { id: 2, username: 'pasien2', password: '123', role: 'pasien', pasien_id: 2 },
   { id: 3, username: 'pasien3', password: '123', role: 'pasien', pasien_id: 3 },
 
-  // Dokter account
+  // Dokter account (mapping ke seedDokter)
   { id: 4, username: 'dokter1', password: '123', role: 'dokter', dokter_id: 1 },
   { id: 5, username: 'dokter2', password: '123', role: 'dokter', dokter_id: 2 },
 
@@ -262,7 +262,9 @@ const seedDetailObat: DetailTransaksiObat[] = [
   },
 ];
 
+// ======================
 // Initialize data
+// ======================
 export function initializeData() {
   // SELALU overwrite supaya seed baru kepakai
   localStorage.setItem('rs_users', JSON.stringify(seedUsers));
@@ -274,7 +276,9 @@ export function initializeData() {
   localStorage.setItem('rs_detail_obat', JSON.stringify(seedDetailObat));
 }
 
-// Helper functions
+// ======================
+// Helper functions USERS
+// ======================
 export function authenticateUser(
   username: string,
   password: string,
@@ -291,6 +295,38 @@ export function getUsers(): User[] {
   return JSON.parse(localStorage.getItem('rs_users') || '[]');
 }
 
+export function addUser(data: Omit<User, 'id'>): User {
+  const list = getUsers();
+  const newId = list.length > 0 ? Math.max(...list.map(u => u.id)) + 1 : 1;
+  const newUser: User = { ...data, id: newId };
+  list.push(newUser);
+  localStorage.setItem('rs_users', JSON.stringify(list));
+  return newUser;
+}
+
+// dipakai saat tambah dokter via admin
+export function createDokterUser(
+  dokterId: number,
+  username: string,
+  password: string
+): User {
+  return addUser({
+    username,
+    password,
+    role: 'dokter',
+    dokter_id: dokterId,
+  });
+}
+
+// hapus semua user yang terhubung ke dokterId (kalau dokter dihapus)
+export function deleteUserByDokterId(dokterId: number) {
+  const filtered = getUsers().filter(u => u.dokter_id !== dokterId);
+  localStorage.setItem('rs_users', JSON.stringify(filtered));
+}
+
+// ======================
+// Helper PASIEN
+// ======================
 export function getPasien(): Pasien[] {
   return JSON.parse(localStorage.getItem('rs_pasien') || '[]');
 }
@@ -322,6 +358,9 @@ export function deletePasien(id: number) {
   localStorage.setItem('rs_pasien', JSON.stringify(list));
 }
 
+// ======================
+// Helper DOKTER
+// ======================
 export function getDokter(): Dokter[] {
   return JSON.parse(localStorage.getItem('rs_dokter') || '[]');
 }
@@ -348,12 +387,16 @@ export function updateDokter(id: number, data: Partial<Dokter>) {
   }
 }
 
-// ➜ TAMBAHAN BARU: fungsi hapus dokter
 export function deleteDokter(id: number) {
-  const list = getDokter().filter((d) => d.id !== id);
+  const list = getDokter().filter(d => d.id !== id);
   localStorage.setItem('rs_dokter', JSON.stringify(list));
+  // sekaligus hapus akun user dokter-nya
+  deleteUserByDokterId(id);
 }
 
+// ======================
+// Helper PENDAFTARAN
+// ======================
 export function getPendaftaran(): Pendaftaran[] {
   return JSON.parse(localStorage.getItem('rs_pendaftaran') || '[]');
 }
@@ -384,6 +427,9 @@ export function updatePendaftaran(id: number, data: Partial<Pendaftaran>) {
   }
 }
 
+// ======================
+// Helper REKAM MEDIS
+// ======================
 export function getRekamMedis(): RekamMedis[] {
   return JSON.parse(localStorage.getItem('rs_rekam_medis') || '[]');
 }
@@ -411,6 +457,9 @@ export function addRekamMedis(
   return newRekamMedis;
 }
 
+// ======================
+// Helper TRANSAKSI
+// ======================
 export function getTransaksi(): Transaksi[] {
   return JSON.parse(localStorage.getItem('rs_transaksi') || '[]');
 }
@@ -441,6 +490,9 @@ export function updateTransaksi(id: number, data: Partial<Transaksi>) {
   }
 }
 
+// ======================
+// Helper DETAIL OBAT
+// ======================
 export function getDetailObat(): DetailTransaksiObat[] {
   return JSON.parse(localStorage.getItem('rs_detail_obat') || '[]');
 }

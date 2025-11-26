@@ -16,9 +16,10 @@ interface LoginPageProps {
   role: 'pasien' | 'dokter' | 'admin';
   onLogin: (user: any) => void;
   onBack: () => void;
+  onRegisterPasien?: () => void; // ⭐ penting
 }
 
-export function LoginPage({ role, onLogin, onBack }: LoginPageProps) {
+export function LoginPage({ role, onLogin, onBack, onRegisterPasien }: LoginPageProps) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -80,20 +81,17 @@ export function LoginPage({ role, onLogin, onBack }: LoginPageProps) {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-[#E8ECF1]">
-        {/* Tombol Kembali tetap di luar kotak putih */}
-        <button
-          onClick={onBack}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Kembali</span>
-        </button>
 
-        {/* PERUBAHAN 1: Header dipindahkan ke dalam container bg-white di bawah ini */}
-        
-        {/* Container Utama (Kotak Putih) */}
-          
-          {/* Header (Dipindah ke Sini) */}
+          {/* Tombol Kembali */}
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span>Kembali</span>
+          </button>
+
+          {/* Header */}
           <div className="text-center mb-8">
             <div
               className={`inline-flex items-center justify-center w-20 h-20 ${config.color} rounded-2xl mb-4`}
@@ -106,8 +104,9 @@ export function LoginPage({ role, onLogin, onBack }: LoginPageProps) {
             <p className="text-gray-600">RS Sehat Sentosa</p>
           </div>
 
-          {/* Login Form */}
+          {/* FORM LOGIN */}
           <form onSubmit={handleSubmit} className="space-y-6">
+
             {/* Username */}
             <div>
               <label
@@ -118,14 +117,13 @@ export function LoginPage({ role, onLogin, onBack }: LoginPageProps) {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400" />
+                  {/* <User className="h-5 w-5 text-gray-400" /> */}
                 </div>
                 <input
                   id="username"
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  // PERUBAHAN 2: pl-12 diganti jadi pl-14 agar teks geser ke kanan
                   className="input-field pl-14 pr-3 w-full placeholder:text-gray-400 border border-gray-300 rounded-lg py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Masukkan username"
                   required
@@ -143,14 +141,13 @@ export function LoginPage({ role, onLogin, onBack }: LoginPageProps) {
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
+                  {/* <Lock className="h-5 w-5 text-gray-400" /> */}
                 </div>
                 <input
                   id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  // PERUBAHAN 2: pl-12 diganti jadi pl-14
                   className="input-field pl-14 pr-3 w-full placeholder:text-gray-400 border border-gray-300 rounded-lg py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Masukkan password"
                   required
@@ -158,7 +155,7 @@ export function LoginPage({ role, onLogin, onBack }: LoginPageProps) {
               </div>
             </div>
 
-            {/* Error Message */}
+            {/* Error */}
             {error && (
               <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-lg">
                 <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
@@ -166,7 +163,7 @@ export function LoginPage({ role, onLogin, onBack }: LoginPageProps) {
               </div>
             )}
 
-            {/* Submit Button */}
+            {/* Tombol LOGIN */}
             <button
               type="submit"
               disabled={isLoading}
@@ -174,6 +171,18 @@ export function LoginPage({ role, onLogin, onBack }: LoginPageProps) {
             >
               {isLoading ? 'Loading...' : 'Login'}
             </button>
+
+            {/* Tombol ke REGISTER PASIEN */}
+            {role === 'pasien' && (
+              <button
+                type="button"
+                onClick={onRegisterPasien}
+                className="w-full text-blue-600 hover:text-blue-800 text-sm mt-3 font-medium"
+              >
+                Belum punya akun? Daftar Pasien Baru
+              </button>
+            )}
+
           </form>
         </div>
       </div>

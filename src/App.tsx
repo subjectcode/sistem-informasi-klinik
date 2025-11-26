@@ -4,9 +4,16 @@ import { LoginPage } from './components/LoginPage';
 import { PasienDashboard } from './components/pasien/PasienDashboard';
 import { DokterDashboard } from './components/dokter/DokterDashboard';
 import { AdminDashboard } from './components/admin/AdminDashboard';
+import { RegisterPasien } from './components/RegisterPasien';
 import { initializeData } from './utils/seedData';
 
-type Page = 'landing' | 'login-pasien' | 'login-dokter' | 'login-admin' | 'dashboard';
+type Page =
+  | 'landing'
+  | 'login-pasien'
+  | 'login-dokter'
+  | 'login-admin'
+  | 'register-pasien'
+  | 'dashboard';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('landing');
@@ -14,10 +21,8 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState<any>(null);
 
   useEffect(() => {
-    // Initialize seed data
     initializeData();
-    
-    // Check if user is already logged in
+
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
       const user = JSON.parse(savedUser);
@@ -49,8 +54,26 @@ export default function App() {
     setCurrentPage('landing');
   };
 
+  const handleBackToLoginPasien = () => {
+    setCurrentPage('login-pasien');
+  };
+
+  const handleSuccessRegister = () => {
+    setCurrentPage('login-pasien');
+  };
+
+  // ROUTES
   if (currentPage === 'landing') {
     return <LandingPage onRoleSelect={handleRoleSelect} />;
+  }
+
+  if (currentPage === 'register-pasien') {
+    return (
+      <RegisterPasien
+        onBack={handleBackToLoginPasien}
+        onSuccess={handleSuccessRegister}
+      />
+    );
   }
 
   if (currentPage.startsWith('login-') && loginRole) {
@@ -59,6 +82,7 @@ export default function App() {
         role={loginRole}
         onLogin={handleLogin}
         onBack={handleBackToLanding}
+        onRegisterPasien={() => setCurrentPage('register-pasien')}
       />
     );
   }
